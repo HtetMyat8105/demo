@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/header :: head('Book Shop')}"></head>
+<body>
+  <div th:replace="~{fragments/header :: nav}"></div>
+
+  <div class="container">
+    <div th:replace="~{fragments/header :: messages}"></div>
+
+    <a class="btn btn-primary mb-3" th:href="@{/books/new}">+ Add Book</a>
+
+    <table class="table table-bordered align-middle">
+      <thead class="table-light">
+        <tr><th>ID</th><th>Title</th><th>Author</th><th>Year</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="b : ${books}">
+          <td th:text="${b.id}"></td>
+          <td th:text="${b.title}"></td>
+          <td th:text="${b.author}"></td>
+          <td th:text="${b.year}"></td>
+          <td>
+            <a class="btn btn-sm btn-warning"
+               th:href="@{/books/edit/{id}(id=${b.id})}">Edit</a>
+            <form class="d-inline" method="post"
+                  th:action="@{/books/delete/{id}(id=${b.id})}"
+                  onsubmit="return confirm('Delete this book?')">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(books)}">
+          <td colspan="5" class="text-center text-muted">No books yet</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

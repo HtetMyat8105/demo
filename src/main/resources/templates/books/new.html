@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/header :: head('Book Form')}"></head>
+<body>
+  <div th:replace="~{fragments/header :: nav}"></div>
+
+  <div class="container" style="max-width: 600px">
+    <h3 th:text="${book.id == null} ? 'Add Book' : 'Edit Book'">Book</h3>
+
+    <form method="post" novalidate th:object="${book}"
+          th:action="${book.id == null} ? @{/books} : @{/books/edit/{id}(id=${book.id})}">
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{title}" placeholder="Title"
+               th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+        <div class="invalid-feedback" th:errors="*{title}"></div>
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" th:field="*{author}" placeholder="Author"
+               th:classappend="${#fields.hasErrors('author')} ? 'is-invalid'">
+        <div class="invalid-feedback" th:errors="*{author}"></div>
+      </div>
+
+      <div class="mb-3">
+        <input class="form-control" type="number" th:field="*{year}" placeholder="Year"
+               th:classappend="${#fields.hasErrors('year')} ? 'is-invalid'">
+        <div class="invalid-feedback" th:errors="*{year}"></div>
+      </div>
+
+      <button class="btn btn-success">Save</button>
+      <a class="btn btn-secondary" th:href="@{/books}">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>
